@@ -5,34 +5,37 @@ namespace AcademyManager.Domain.Entities
 {
     public class Student : Entity
     {
+        private Student() { }
         private List<Enrollment> _enrollments;
-        public Student(NameObject name, DateOnly birthDate, Cpf cpf, Email email, Password password)
+        public Student(Name name, DateOnly birthDate, Cpf cpf, Email email)
         {
             Name = name;
             BirthDate = birthDate;
             Cpf = cpf;
             Email = email;
-            Password = password;
             _enrollments = [];
+
+            AddNotifications(name.Notifications);
+            AddNotifications(cpf.Notifications);
+            AddNotifications(email.Notifications);
         }
 
-        public NameObject Name { get; }
+        public Name Name { get; }
         public DateOnly BirthDate { get; }
         public Cpf Cpf { get; }
         public Email Email { get; }
-        public Password Password { get; }
+        public Password Password { get; private set; }
 
         public IReadOnlyCollection<Enrollment> Enrollments { get { return _enrollments; } }
+        private void SetPassword(Password password) => Password = password;
 
         public void AddEnrollment(Enrollment enrollment)
         {
-            if (_enrollments.Exists(e => e.ClassGroupId == enrollment.ClassGroupId))
-            {
-                throw new ArgumentException("O aluno já está matriculado nessa turma.");
-            }
+            if (_enrollments.Exists(e => e.ClassId == enrollment.ClassId))
+                AddNotification("Student", "O aluno já está matriculado no curso.");
 
-            _enrollments.Add(enrollment);
+            else
+                _enrollments.Add(enrollment);
         }
-
     }
 }

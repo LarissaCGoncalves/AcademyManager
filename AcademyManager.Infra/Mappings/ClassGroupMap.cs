@@ -18,7 +18,7 @@ namespace AcademyManager.Infra.Mappings
 
             builder.OwnsOne(x => x.Name, name =>
             {
-                name.Property(n => n.Name)
+                name.Property(n => n.Value)
                     .IsRequired()
                     .HasColumnName("Name")
                     .HasColumnType("NVARCHAR")
@@ -31,7 +31,8 @@ namespace AcademyManager.Infra.Mappings
                 .HasColumnType("TEXT");
 
             builder.Property(e => e.CreatedAt)
-                .HasColumnType("DATETIME");
+                .HasColumnType("DATETIME")
+                .HasDefaultValueSql("GETDATE()");
 
             builder.Property(e => e.UpdatedAt)
                 .HasColumnType("DATETIME")

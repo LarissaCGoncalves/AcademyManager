@@ -4,14 +4,15 @@ namespace AcademyManager.Domain.Entities
 {
     public class Enrollment : Entity
     {
-        public Enrollment(int studentId, int classGroupId)
+        private Enrollment() { }
+        public Enrollment(int studentId, int classId)
         {
             StudentId = studentId;
-            ClassGroupId = classGroupId;
+            ClassId = classId;
         }
 
         public int StudentId { get; }
-        public int ClassGroupId { get; }
+        public int ClassId { get; }
 
         public Student Student { get; set; }
         public ClassGroup ClassGroup { get; set; }

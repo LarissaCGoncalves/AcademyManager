@@ -1,6 +1,8 @@
 ﻿using AcademyManager.Application.ClassGroup.Commands;
 using AcademyManager.Application.ClassGroup.Validations;
+using AcademyManager.Domain.Repositories;
 using AcademyManager.Infra.Context;
+using AcademyManager.Infra.Repositories;
 using AcademyManager.Shared.Validations;
 using FluentValidation;
 using MediatR;
@@ -13,6 +15,10 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddDbContext<AcademyManagerContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
+// Logs
+builder.Services.AddSingleton<ILoggerFactory, LoggerFactory>();
+builder.Services.AddSingleton(typeof(ILogger<>), typeof(Logger<>));
+
 // MediatR (para comandos e queries)
 builder.Services.AddMediatR(cfg =>
     cfg.RegisterServicesFromAssembly(typeof(CreateClassGroupCommand).Assembly));
@@ -23,12 +29,13 @@ builder.Services.AddTransient<IValidator<CreateClassGroupCommand>, CreateClassGr
 builder.Services.AddTransient(typeof(IPipelineBehavior<,>), typeof(ValidationBehavior<,>));
 
 // Repositórios
-//builder.Services.AddScoped<IUserRepository, UserRepository>();
+builder.Services.AddScoped<IClassGroupRepository, ClassGroupRepository>();
 
 // API Controllers e Swagger
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+builder.Services.AddLogging();
 
 // Pipeline da aplicação
 var app = builder.Build();

@@ -1,6 +1,8 @@
-﻿namespace AcademyManager.Shared.Entities;
+﻿using AcademyManager.Shared.Notifications;
 
-public abstract class Entity
+namespace AcademyManager.Shared.Entities;
+
+public abstract class Entity : Notifiable
 {
     public int Id { get; protected set; }
     public DateTime CreatedAt { get; protected set; }

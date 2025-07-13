@@ -18,7 +18,7 @@ namespace AcademyManager.Infra.Mappings
 
             builder.OwnsOne(x => x.Name, name =>
             {
-                name.Property(n => n.Name)
+                name.Property(n => n.Value)
                     .IsRequired()
                     .HasColumnName("Name")
                     .HasColumnType("NVARCHAR")
@@ -37,6 +37,8 @@ namespace AcademyManager.Infra.Mappings
                     .HasColumnName("Cpf")
                     .HasColumnType("NVARCHAR")
                     .HasMaxLength(11);
+
+                cpf.HasIndex(c => c.CpfNumber).IsUnique();
             });
 
             builder.OwnsOne(x => x.Email, email =>
@@ -46,6 +48,8 @@ namespace AcademyManager.Infra.Mappings
                     .HasColumnName("Email")
                     .HasColumnType("NVARCHAR")
                     .HasMaxLength(50);
+
+                email.HasIndex(e => e.Address).IsUnique();
             });
 
             builder.OwnsOne(x => x.Password, password =>
@@ -58,7 +62,8 @@ namespace AcademyManager.Infra.Mappings
             });
 
             builder.Property(e => e.CreatedAt)
-                .HasColumnType("DATETIME");
+                .HasColumnType("DATETIME")
+                .HasDefaultValueSql("GETDATE()");
 
             builder.Property(e => e.UpdatedAt)
                 .HasColumnType("DATETIME")

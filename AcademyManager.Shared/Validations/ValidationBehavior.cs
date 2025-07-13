@@ -33,12 +33,12 @@ namespace AcademyManager.Shared.Validations
                 var resultType = typeof(TResponse);
 
                 var failureMethod = resultType
-                    .GetMethod("Failure", [ typeof(string), typeof(string) ]);
+    .               GetMethod("Failure", [ typeof(string) ]);
 
                 var joinedMessage = string.Join(" | ", errorMessages);
 
                 if (failureMethod != null)
-                    return (TResponse?)failureMethod.Invoke(null, [ joinedMessage, "VALIDATION_ERROR" ])!;
+                    return (TResponse?)failureMethod.Invoke(null, [ joinedMessage ])!;
 
                 throw new ValidationException(failures);
             }

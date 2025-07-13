@@ -17,7 +17,8 @@ namespace AcademyManager.Infra.Mappings
                 .UseIdentityColumn();
 
             builder.Property(e => e.CreatedAt)
-                .HasColumnType("DATETIME");
+                .HasColumnType("DATETIME")
+                .HasDefaultValueSql("GETDATE()");
 
             builder.Property(e => e.UpdatedAt)
                 .HasColumnType("DATETIME")
@@ -26,8 +27,6 @@ namespace AcademyManager.Infra.Mappings
             builder.Property(e => e.DeletedAt)
                 .HasColumnType("DATETIME")
                 .IsRequired(false);
-
-            //Relationships
 
             builder.HasOne(x => x.Student)
                 .WithMany(x => x.Enrollments)
@@ -40,12 +39,16 @@ namespace AcademyManager.Infra.Mappings
 
             builder.HasOne(x => x.ClassGroup)
                 .WithMany(x => x.Enrollments)
-                .HasForeignKey(x => x.ClassGroupId)
+                .HasForeignKey(x => x.ClassId)
                 .HasConstraintName("FK_Enrollment_Class")
                 .OnDelete(DeleteBehavior.Cascade);
 
-            builder.HasIndex(x => x.ClassGroupId)
-                .HasDatabaseName("IX_Enrollment_ClassGroupId");
+            builder.HasIndex(x => x.ClassId)
+                .HasDatabaseName("IX_Enrollment_ClassId");
+
+            builder.HasIndex(x => new { x.StudentId, x.ClassId })
+                .IsUnique()
+                .HasDatabaseName("UQ_Enrollment_Student_Class");
         }
     }
 }

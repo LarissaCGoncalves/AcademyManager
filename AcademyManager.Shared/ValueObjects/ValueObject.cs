@@ -1,5 +1,7 @@
-﻿namespace AcademyManager.Shared.ValueObjects;
+﻿using AcademyManager.Shared.Notifications;
 
-public abstract class ValueObject
+namespace AcademyManager.Shared.ValueObjects;
+
+public abstract class ValueObject : Notifiable
 {
 }

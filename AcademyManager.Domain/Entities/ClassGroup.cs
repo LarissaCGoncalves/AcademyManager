@@ -5,13 +5,16 @@ namespace AcademyManager.Domain.Entities
 {
     public class ClassGroup : Entity
     {
-        public ClassGroup(NameObject name, string? description)
+        private ClassGroup() { }
+        public ClassGroup(Name name, string? description)
         {
             Name = name;
             Description = description;
+
+            AddNotifications(name.Notifications);
         }
 
-        public NameObject Name { get; }
+        public Name Name { get; }
         public string? Description { get; }
         public IReadOnlyCollection<Enrollment> Enrollments { get; }
     }
