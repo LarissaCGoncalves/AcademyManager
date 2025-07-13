@@ -1,0 +1,51 @@
+## Arquivos específicos do usuário
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
+*.env
+
+## Diretórios de build e saída
+[Bb]in/
+[Oo]bj/
+[Ll]og/
+*.log
+
+## Cache do Visual Studio
+.vs/
+
+## Resultados de testes
+TestResult*/
+*.trx
+*.coverage
+*.coveragexml
+
+## Ferramentas populares
+_ReSharper*/
+*.DotSettings.user
+.idea/
+.vscode/
+
+## Pacotes NuGet
+*.nupkg
+*.snupkg
+**/packages/*
+!**/packages/build/
+
+## Azure e publicação
+publish/
+*.pubxml
+*.publishproj
+*.appx
+*.appxbundle
+*.appxupload
+
+## Outros arquivos temporários
+*.tmp
+*.cache
+*.pidb
+*.svclog
+*.pdb
+*.obj
+*.tlog
+*.scc
