@@ -7,27 +7,29 @@ namespace AcademyManager.Domain.Entities
     {
         private Student() { }
         private List<Enrollment> _enrollments;
-        public Student(Name name, DateOnly birthDate, Cpf cpf, Email email)
+        public Student(Name name, DateOnly birthDate, Cpf cpf, Email email, Password password)
         {
             Name = name;
             BirthDate = birthDate;
             Cpf = cpf;
             Email = email;
+            Password = password;
+
             _enrollments = [];
 
             AddNotifications(name.Notifications);
             AddNotifications(cpf.Notifications);
             AddNotifications(email.Notifications);
+            AddNotifications(password.Notifications);
         }
 
-        public Name Name { get; }
-        public DateOnly BirthDate { get; }
-        public Cpf Cpf { get; }
-        public Email Email { get; }
+        public Name Name { get; private set; }
+        public DateOnly BirthDate { get; private set; }
+        public Cpf Cpf { get; private set; }
+        public Email Email { get; private set; }
         public Password Password { get; private set; }
 
         public IReadOnlyCollection<Enrollment> Enrollments { get { return _enrollments; } }
-        private void SetPassword(Password password) => Password = password;
 
         public void AddEnrollment(Enrollment enrollment)
         {
@@ -36,6 +38,20 @@ namespace AcademyManager.Domain.Entities
 
             else
                 _enrollments.Add(enrollment);
+        }
+
+        public void Update(Name name, DateOnly birthDate, Cpf cpf, Email email)
+        {
+            ClearNotifications();
+
+            Name = name;
+            BirthDate = birthDate;
+            Cpf = cpf;
+            Email = email;
+
+            AddNotifications(name.Notifications);
+            AddNotifications(cpf.Notifications);
+            AddNotifications(email.Notifications);
         }
     }
 }

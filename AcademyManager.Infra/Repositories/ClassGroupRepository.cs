@@ -1,7 +1,6 @@
 ﻿using AcademyManager.Domain.Entities;
 using AcademyManager.Domain.Repositories;
 using AcademyManager.Infra.Context;
-using AcademyManager.Shared.Dtos;
 using AcademyManager.Shared.UnitOfWork;
 using Microsoft.EntityFrameworkCore;
 
@@ -30,7 +29,7 @@ namespace AcademyManager.Infra.Repositories
             _dbSet.Update(classGroup);
         }
 
-        public async Task<ClassGroup> GetById(int id)
+        public async Task<ClassGroup?> GetById(int id)
         {
             return await _dbSet
                 .Include(cg => cg.Enrollments)

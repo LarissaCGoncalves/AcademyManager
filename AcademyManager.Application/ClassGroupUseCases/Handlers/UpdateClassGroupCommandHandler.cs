@@ -1,5 +1,4 @@
 ﻿using AcademyManager.Application.ClassGroupUseCases.Commands;
-using AcademyManager.Domain.Entities;
 using AcademyManager.Domain.Repositories;
 using AcademyManager.Domain.ValueObjects;
 using AcademyManager.Shared.Results;

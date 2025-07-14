@@ -6,8 +6,7 @@ namespace AcademyManager.Domain.ValueObjects
 {
     public class Password : ValueObject
     {
-        private Password() { }
-        public string Hash { get; }
+        public string Hash { get; private set; } = "";
 
         public Password(string plainPassword)
         {
@@ -29,17 +28,6 @@ namespace AcademyManager.Domain.ValueObjects
             }
 
             Hash = GenerateHash(plainPassword);
-        }
-
-        public static Password Create()
-        {
-            Random rnd = new();
-            int randomNumber = rnd.Next(1000, 10000);
-            string randomPassword = $"Stu@{randomNumber}";
-
-            var password = new Password(randomPassword);
-
-            return password;
         }
 
         public bool Validate(string plainPassword)

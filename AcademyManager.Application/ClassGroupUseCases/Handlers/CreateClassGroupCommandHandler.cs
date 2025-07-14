@@ -19,7 +19,7 @@ namespace AcademyManager.Application.ClassGroupUseCases.Handlers
         public async Task<ResultT<int?>> Handle(CreateClassGroupCommand request, CancellationToken cancellationToken)
         {
             var name = new Name(request.Name);
-            var classGroup = new ClassGroup(0,name, request.Description);
+            var classGroup = new ClassGroup(name, request.Description);
 
             if (!classGroup.IsValid)
             {

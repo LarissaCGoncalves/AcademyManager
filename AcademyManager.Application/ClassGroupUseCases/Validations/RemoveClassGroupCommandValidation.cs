@@ -1,4 +1,5 @@
 ﻿using AcademyManager.Application.ClassGroupUseCases.Commands;
+using AcademyManager.Application.StudentUseCases.Commands;
 using FluentValidation;
 
 namespace AcademyManager.Application.ClassGroupUseCases.Validations

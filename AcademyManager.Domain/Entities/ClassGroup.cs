@@ -6,9 +6,8 @@ namespace AcademyManager.Domain.Entities
     public class ClassGroup : Entity
     {
         private ClassGroup() { }
-        public ClassGroup(int id, Name name, string? description)
+        public ClassGroup(Name name, string? description)
         {
-            Id = id;
             Name = name;
             Description = description;
 
