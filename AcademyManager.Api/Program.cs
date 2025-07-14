@@ -1,5 +1,6 @@
-﻿using AcademyManager.Application.ClassGroup.Commands;
-using AcademyManager.Application.ClassGroup.Validations;
+﻿using AcademyManager.Application.ClassGroupUseCases.Commands;
+using AcademyManager.Application.ClassGroupUseCases.Queries;
+using AcademyManager.Application.ClassGroupUseCases.Validations;
 using AcademyManager.Domain.Repositories;
 using AcademyManager.Infra.Context;
 using AcademyManager.Infra.Repositories;
@@ -24,12 +25,15 @@ builder.Services.AddMediatR(cfg =>
     cfg.RegisterServicesFromAssembly(typeof(CreateClassGroupCommand).Assembly));
 
 // FluentValidation + Behavior de Validação
-//builder.Services.AddValidatorsFromAssemblyContaining<CreateClassGroupCommandValidator>();
 builder.Services.AddTransient<IValidator<CreateClassGroupCommand>, CreateClassGroupCommandValidator>();
+builder.Services.AddTransient<IValidator<UpdateClassGroupCommand>, UpdateClassGroupCommandValidator>();
+builder.Services.AddTransient<IValidator<RemoveClassGroupCommand>, RemoveClassGroupCommandValidator>();
+
 builder.Services.AddTransient(typeof(IPipelineBehavior<,>), typeof(ValidationBehavior<,>));
 
 // Repositórios
 builder.Services.AddScoped<IClassGroupRepository, ClassGroupRepository>();
+builder.Services.AddScoped<IClassGroupQueries, ClassGroupQueries>();
 
 // API Controllers e Swagger
 builder.Services.AddControllers();

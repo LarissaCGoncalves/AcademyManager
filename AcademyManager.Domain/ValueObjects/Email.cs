@@ -11,12 +11,18 @@ namespace AcademyManager.Domain.ValueObjects
         public Email(string address)
         {
             if (string.IsNullOrWhiteSpace(address))
+            {
                 AddNotification("Email", "Email não pode ser vazio.");
+                return;
+            }
 
             var trimmedAddress = address.Trim();
 
             if (!Validate(trimmedAddress))
+            {
                 AddNotification("Email", "Email inválido.");
+                return;
+            }
 
             Address = trimmedAddress;
         }

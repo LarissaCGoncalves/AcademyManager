@@ -1,6 +1,8 @@
 ﻿using AcademyManager.Domain.Entities;
 using AcademyManager.Domain.Repositories;
 using AcademyManager.Infra.Context;
+using AcademyManager.Shared.Dtos;
+using AcademyManager.Shared.UnitOfWork;
 using Microsoft.EntityFrameworkCore;
 
 namespace AcademyManager.Infra.Repositories
@@ -15,9 +17,34 @@ namespace AcademyManager.Infra.Repositories
             _context = context;
             _dbSet = context.Set<ClassGroup>();
         }
+
+        public IUnitOfWork ContextUnitOfWork => _context;
+
+        public void Add(ClassGroup classGroup)
+        {
+            _dbSet.Add(classGroup);
+        }
+
+        public void Update(ClassGroup classGroup)
+        {
+            _dbSet.Update(classGroup);
+        }
+
         public async Task<ClassGroup> GetById(int id)
         {
-            return await _dbSet.FindAsync(id);
+            return await _dbSet
+                .Include(cg => cg.Enrollments)
+                .FirstOrDefaultAsync(cg => cg.Id == id);
+        }
+
+        public async Task<List<ClassGroup>> GetAll(int skip, int take)
+        {
+            return await _dbSet
+                .Include(cg => cg.Enrollments)
+                .OrderBy(cg => cg.Name.Value)
+                .Skip(skip)
+                .Take(take)
+                .ToListAsync();
         }
     }
 }

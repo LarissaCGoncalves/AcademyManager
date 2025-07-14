@@ -1,5 +1,5 @@
-﻿using AcademyManager.Application.ClassGroup.Commands;
-using AcademyManager.Domain.Repositories;
+﻿using AcademyManager.Application.ClassGroupUseCases.Commands;
+using AcademyManager.Application.ClassGroupUseCases.Queries;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
@@ -11,34 +11,26 @@ namespace AcademyManager.Api.Controllers
     {
         private readonly IMediator _mediator;
         private readonly ILogger<ClassesController> _logger;
-        private readonly IClassGroupRepository _classGroupRepository;
+        private readonly IClassGroupQueries _classGroupQueries;
 
-        public ClassesController(IClassGroupRepository classGroupRepository, IMediator mediator, ILogger<ClassesController> logger)
+        public ClassesController(IClassGroupQueries classGroupQueries, IMediator mediator, ILogger<ClassesController> logger)
         {
-            _classGroupRepository = classGroupRepository;
+            _classGroupQueries = classGroupQueries;
             _mediator = mediator;
             _logger = logger;
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetById()
+        public async Task<IActionResult> GetAll([FromQuery] int skip = 0, [FromQuery] int take = 10)
         {
             try
             {
-                var result = await _classGroupRepository.GetById(1);
-
-                //if (result.IsFailure)
-                //{
-                //    _logger.LogWarning("Falha ao criar turma: {Motivo}", result.ErrorMessage);
-                //    return BadRequest(new { result.ErrorMessage });
-                //}
-
-                
-                return Ok();
+                var result = await _classGroupQueries.GetAll(skip, take);
+                return Ok(result.Value);
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "Erro inesperado ao buscar turma.");
+                _logger.LogError(ex, "Erro inesperado ao buscar turmas.");
                 return Problem();
             }
         }
@@ -52,20 +44,60 @@ namespace AcademyManager.Api.Controllers
 
                 if (result.IsFailure)
                 {
-                    _logger.LogWarning("Falha ao criar turma: {Motivo}", result.ErrorMessage);
                     return BadRequest(new { result.ErrorMessage });
                 }
 
-                return Ok(new { Message = "Turma cadastrada com sucesso!", UserId = result.Value });
+                return Ok(new { Message = "Turma cadastrada com sucesso!", Id = result.Value });
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "Erro inesperado ao criar turma.");
+                _logger.LogError(ex, "Erro inesperado ao buscar turma.");
+                return Problem();
+            }
+        }
+
+        [HttpPut]
+        public async Task<IActionResult> Update([FromBody] UpdateClassGroupCommand command)
+        {
+            try
+            {
+                var result = await _mediator.Send(command);
+
+                if (result.IsFailure)
+                {
+                    return BadRequest(new { result.ErrorMessage });
+                }
+
+                return Ok(new { Message = "Turma atualizada com sucesso!" });
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Erro inesperado ao atualizar turma.");
+                return Problem();
+            }
+        }
+
+        [HttpDelete]
+        public async Task<IActionResult> Delete([FromBody] RemoveClassGroupCommand command)
+        {
+            try
+            {
+                var result = await _mediator.Send(command);
+
+                if (result.IsFailure)
+                {
+                    return BadRequest(new { result.ErrorMessage });
+                }
+
+                return Ok(new { Message = "Turma deletada com sucesso!" });
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Erro inesperado ao deletar turma.");
                 return Problem();
             }
         }
     }
-
 }
 
 

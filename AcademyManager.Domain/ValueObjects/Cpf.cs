@@ -10,12 +10,18 @@ namespace AcademyManager.Domain.ValueObjects
         public Cpf(string cpf)
         {
             if (string.IsNullOrWhiteSpace(cpf))
+            {
                 AddNotification("Cpf", "CPF não pode ser vazio.");
+                return;
+            }
 
             var onlyNumbers = Clean(cpf);
 
             if (!Validate(onlyNumbers))
+            {
                 AddNotification("Cpf", "CPF inválido");
+                return;
+            }
 
             CpfNumber = onlyNumbers;
         }

@@ -49,6 +49,10 @@ namespace AcademyManager.Infra.Mappings
             builder.HasIndex(x => new { x.StudentId, x.ClassId })
                 .IsUnique()
                 .HasDatabaseName("UQ_Enrollment_Student_Class");
+
+            // Filters
+
+            builder.HasQueryFilter(c => c.DeletedAt == null);
         }
     }
 }

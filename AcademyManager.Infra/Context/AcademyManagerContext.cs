@@ -1,10 +1,12 @@
 ﻿using AcademyManager.Domain.Entities;
 using AcademyManager.Infra.Mappings;
+using AcademyManager.Shared.Notifications;
+using AcademyManager.Shared.UnitOfWork;
 using Microsoft.EntityFrameworkCore;
 
 namespace AcademyManager.Infra.Context
 {
-    public class AcademyManagerContext : DbContext
+    public class AcademyManagerContext : DbContext, IUnitOfWork
     {
         public DbSet<Student> Students { get; set; }
         public DbSet<ClassGroup> ClassGroups { get; set; }
@@ -20,24 +22,19 @@ namespace AcademyManager.Infra.Context
             modelBuilder.ApplyConfiguration(new StudentMap());
             modelBuilder.ApplyConfiguration(new ClassGroupMap());
             modelBuilder.ApplyConfiguration(new EnrollmentMap());
+            modelBuilder.Ignore<Notification>();
+            modelBuilder.Ignore<Notifiable>();
         }
 
-        public async Task<bool> Commit()
+        public async Task<bool> CommitAsync()
         {
-            ChangeTracker.Entries().Where(e => e.State == EntityState.Added).ToList().ForEach(e =>
-            {
-                e.Property("CreatedAt").CurrentValue = DateTime.Now;
-                e.Property("UpdatedAt").CurrentValue = DateTime.Now;
-            });
-
-            ChangeTracker.Entries().Where(e => e.State == EntityState.Modified).ToList().ForEach(e =>
-            {
-                e.Property("CreatedAt").IsModified = false;
-                e.Property("UpdatedAt").CurrentValue = DateTime.Now;
-            });
-
             var response = await SaveChangesAsync() > 0;
             return response;
+        }
+
+        public void Dispose()
+        {
+            base.Dispose();
         }
     }
 }

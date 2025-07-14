@@ -12,7 +12,10 @@ namespace AcademyManager.Domain.ValueObjects
         public Password(string plainPassword)
         {
             if (string.IsNullOrWhiteSpace(plainPassword))
+            {
                 AddNotification("Password", "Senha não pode ser vazia.");
+                return;
+            }
 
             if (plainPassword.Length < 8 ||
                 !plainPassword.Any(char.IsUpper) ||

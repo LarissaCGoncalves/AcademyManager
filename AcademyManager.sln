@@ -13,6 +13,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AcademyManager.Api", "Acade
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AcademyManager.Shared", "AcademyManager.Shared\AcademyManager.Shared.csproj", "{19490061-FD05-4602-A91B-F475509CA700}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AcademyManager.Tests", "AcademyManager.Tests\AcademyManager.Tests.csproj", "{50C73C97-F4F9-449F-BB64-CD65C1CF1291}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -83,6 +85,18 @@ Global
 		{19490061-FD05-4602-A91B-F475509CA700}.Release|x64.Build.0 = Release|Any CPU
 		{19490061-FD05-4602-A91B-F475509CA700}.Release|x86.ActiveCfg = Release|Any CPU
 		{19490061-FD05-4602-A91B-F475509CA700}.Release|x86.Build.0 = Release|Any CPU
+		{50C73C97-F4F9-449F-BB64-CD65C1CF1291}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{50C73C97-F4F9-449F-BB64-CD65C1CF1291}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{50C73C97-F4F9-449F-BB64-CD65C1CF1291}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{50C73C97-F4F9-449F-BB64-CD65C1CF1291}.Debug|x64.Build.0 = Debug|Any CPU
+		{50C73C97-F4F9-449F-BB64-CD65C1CF1291}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{50C73C97-F4F9-449F-BB64-CD65C1CF1291}.Debug|x86.Build.0 = Debug|Any CPU
+		{50C73C97-F4F9-449F-BB64-CD65C1CF1291}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{50C73C97-F4F9-449F-BB64-CD65C1CF1291}.Release|Any CPU.Build.0 = Release|Any CPU
+		{50C73C97-F4F9-449F-BB64-CD65C1CF1291}.Release|x64.ActiveCfg = Release|Any CPU
+		{50C73C97-F4F9-449F-BB64-CD65C1CF1291}.Release|x64.Build.0 = Release|Any CPU
+		{50C73C97-F4F9-449F-BB64-CD65C1CF1291}.Release|x86.ActiveCfg = Release|Any CPU
+		{50C73C97-F4F9-449F-BB64-CD65C1CF1291}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

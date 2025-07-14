@@ -41,6 +41,10 @@ namespace AcademyManager.Infra.Mappings
             builder.Property(e => e.DeletedAt)
                 .HasColumnType("DATETIME")
                 .IsRequired(false);
+
+            // Filters
+
+            builder.HasQueryFilter(c => c.DeletedAt == null);
         }
     }
 }

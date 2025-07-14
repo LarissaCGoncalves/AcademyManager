@@ -17,5 +17,15 @@
         {
             _notifications.AddRange(notifications);
         }
+
+        protected void ClearNotifications()
+        {
+            _notifications.Clear();
+        }
+
+        public string ReadNotifications()
+        {
+            return string.Join(". ", _notifications.Select(n => n.Message));
+        }
     }
 }
