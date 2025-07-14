@@ -35,6 +35,7 @@ builder.Services.AddTransient<IValidator<RemoveClassGroupCommand>, RemoveClassGr
 builder.Services.AddTransient<IValidator<CreateStudentCommand>, CreateStudentCommandValidator>();
 builder.Services.AddTransient<IValidator<UpdateStudentCommand>, UpdateStudentCommandValidator>();
 builder.Services.AddTransient<IValidator<RemoveStudentCommand>, RemoveStudentCommandValidator>();
+builder.Services.AddTransient<IValidator<EnrollStudentToClassCommand>, EnrollStudentToClassCommandValidation>();
 
 builder.Services.AddTransient(typeof(IPipelineBehavior<,>), typeof(ValidationBehavior<,>));
 

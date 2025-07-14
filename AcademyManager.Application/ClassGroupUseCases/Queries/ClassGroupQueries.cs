@@ -13,9 +13,9 @@ namespace AcademyManager.Application.ClassGroupUseCases.Queries
             _repository = repository;
         }
 
-        public async Task<ResultT<IEnumerable<ClassGroupDto>>> GetAll(int skip, int take)
+        public async Task<ResultT<IEnumerable<ClassGroupDto>>> GetAll(int page, int pageSize)
         {
-            var classGroups = await _repository.GetAll(skip, take);
+            var classGroups = await _repository.GetAll(page, pageSize);
 
             var dto = classGroups.Select(c => new ClassGroupDto
             {

@@ -7,6 +7,7 @@ namespace AcademyManager.Domain.ValueObjects
     public class Password : ValueObject
     {
         public string Hash { get; private set; } = "";
+        private Password() { }
 
         public Password(string plainPassword)
         {

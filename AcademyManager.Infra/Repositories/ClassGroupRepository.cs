@@ -36,13 +36,15 @@ namespace AcademyManager.Infra.Repositories
                 .FirstOrDefaultAsync(cg => cg.Id == id);
         }
 
-        public async Task<List<ClassGroup>> GetAll(int skip, int take)
+        public async Task<List<ClassGroup>> GetAll(int page, int pageSize)
         {
+            int skip = (page - 1) * pageSize;
+
             return await _dbSet
                 .Include(cg => cg.Enrollments)
                 .OrderBy(cg => cg.Name.Value)
                 .Skip(skip)
-                .Take(take)
+                .Take(pageSize)
                 .ToListAsync();
         }
     }

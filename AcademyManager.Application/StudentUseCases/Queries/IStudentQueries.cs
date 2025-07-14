@@ -5,6 +5,6 @@ namespace AcademyManager.Application.StudentUseCases.Queries
 {
     public interface IStudentQueries
     {
-        Task<ResultT<IEnumerable<StudentDto>>> GetAll(int skip, int take, string? search);
+        Task<ResultT<IEnumerable<StudentDto>>> GetAll(int page, int pageSize, string? search);
     }
 }

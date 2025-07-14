@@ -3,6 +3,7 @@ using AcademyManager.Domain.Repositories;
 using AcademyManager.Infra.Context;
 using AcademyManager.Shared.UnitOfWork;
 using Microsoft.EntityFrameworkCore;
+using System.Linq.Expressions;
 
 namespace AcademyManager.Infra.Repositories
 {
@@ -32,13 +33,19 @@ namespace AcademyManager.Infra.Repositories
         public async Task<Student?> GetById(int id)
         {
             return await _dbSet
-                .Include(s => s.Enrollments)
+                .FirstOrDefaultAsync(s => s.Id == id);
+        }
+
+        public async Task<Student?> GetById(int id, Expression<Func<Student, object>> includeExpression)
+        {
+            return await _dbSet
+                .Include(includeExpression)
                 .FirstOrDefaultAsync(s => s.Id == id);
         }
 
         public async Task<bool> CheckIfExistsByEmail(string email)
         {
-            return await _dbSet.AnyAsync(s => s.Email.Address.Equals(email, StringComparison.OrdinalIgnoreCase));
+            return await _dbSet.AnyAsync(s => s.Email.Address.ToLower().Equals(email.ToLower()));
         }
 
         public async Task<bool> CheckIfExistsByCpf(string cpf)
@@ -46,7 +53,7 @@ namespace AcademyManager.Infra.Repositories
             return await _dbSet.AnyAsync(s => s.Cpf.CpfNumber.Equals(cpf));
         }
 
-        public async Task<List<Student>> GetAll(int skip, int take, string? search = null)
+        public async Task<List<Student>> GetAll(int page, int pageSize, string? search = null)
         {
             var query = _dbSet
                 .Include(s => s.Enrollments)                     
@@ -56,13 +63,15 @@ namespace AcademyManager.Infra.Repositories
 
             if (!string.IsNullOrWhiteSpace(search))
             {
-                query = query.Where(s => s.Name.Value.Contains(search, StringComparison.OrdinalIgnoreCase));
+                query = query.Where(s => s.Name.Value.ToLower().Contains(search.ToLower()));
             }
+
+            int skip = (page - 1) * pageSize;
 
             return await query
                 .OrderBy(s => s.Name.Value)
                 .Skip(skip)
-                .Take(take)
+                .Take(pageSize)
                 .ToListAsync();
         }
     }

@@ -8,6 +8,6 @@ namespace AcademyManager.Domain.Repositories
         void Add(ClassGroup classGroup);
         void Update(ClassGroup classGroup);
         Task<ClassGroup?> GetById(int id);
-        Task<List<ClassGroup>> GetAll(int skip, int take);
+        Task<List<ClassGroup>> GetAll(int page, int pageSize);
     }
 }

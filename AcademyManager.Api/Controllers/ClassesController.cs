@@ -24,11 +24,11 @@ namespace AcademyManager.Api.Controllers
         /// <summary>
         /// Retorna uma lista paginada de turmas.
         /// </summary>
-        /// <param name="skip">
+        /// <param name="page">
         /// Número da página a ser exibida. 
-        /// Por padrão é 0, o que corresponde à primeira página.
+        /// Por padrão é 1, o que corresponde à primeira página.
         /// </param>
-        /// <param name="take">
+        /// <param name="pageSize">
         /// Quantidade de registros a serem exibidos por página. 
         /// Por padrão, retorna 10 registros.
         /// </param>
@@ -36,11 +36,11 @@ namespace AcademyManager.Api.Controllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status500InternalServerError)]
         [HttpGet]
-        public async Task<IActionResult> GetAll([FromQuery] int skip = 0, [FromQuery] int take = 10)
+        public async Task<IActionResult> GetAll([FromQuery] int page = 1, [FromQuery] int pageSize = 10)
         {
             try
             {
-                var result = await _classGroupQueries.GetAll(skip, take);
+                var result = await _classGroupQueries.GetAll(page, pageSize);
                 return Ok(result.Value);
             }
             catch (Exception ex)
@@ -59,7 +59,7 @@ namespace AcademyManager.Api.Controllers
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status500InternalServerError)]
         [HttpPost]
-        public async Task<IActionResult> Create([FromBody] CreateStudentCommand command)
+        public async Task<IActionResult> Create([FromBody] CreateClassGroupCommand command)
         {
             try
             {

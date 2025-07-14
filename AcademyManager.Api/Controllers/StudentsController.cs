@@ -23,11 +23,11 @@ namespace AcademyManager.Api.Controllers
         /// <summary>
         /// Retorna uma lista paginada de alunos.
         /// </summary>
-        /// <param name="skip">
+        /// <param name="page">
         /// Número da página a ser exibida. 
-        /// Por padrão é 0, o que corresponde à primeira página.
+        /// Por padrão é 1, o que corresponde à primeira página.
         /// </param>
-        /// <param name="take">
+        /// <param name="pageSize">
         /// Quantidade de registros a serem exibidos por página. 
         /// Por padrão, retorna 10 registros.
         /// </param>
@@ -39,11 +39,11 @@ namespace AcademyManager.Api.Controllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status500InternalServerError)]
         [HttpGet]
-        public async Task<IActionResult> GetAll([FromQuery] int skip = 0, [FromQuery] int take = 10, [FromQuery] string? search = null)
+        public async Task<IActionResult> GetAll([FromQuery] int page = 1, [FromQuery] int pageSize = 10, [FromQuery] string? search = null)
         {
             try
             {
-                var result = await _studentQueries.GetAll(skip, take, search);
+                var result = await _studentQueries.GetAll(page, pageSize, search);
                 return Ok(result.Value);
             }
             catch (Exception ex)
@@ -83,7 +83,7 @@ namespace AcademyManager.Api.Controllers
         }
 
         /// <summary>
-        /// Atualiza uma turma existente.
+        /// Atualiza um aluno existente.
         /// </summary>
         /// <param name="command">Dados atualizados do aluno. Id, Nome, data de nascimento, cpf e email.</param>
         /// <returns>Mensagem de sucesso ou erro.</returns>
@@ -112,7 +112,7 @@ namespace AcademyManager.Api.Controllers
         }
 
         /// <summary>
-        /// Remove uma turma.
+        /// Remove um aluno.
         /// </summary>
         /// <param name="command">Identificador do aluno a ser removido.</param>
         /// <returns>Mensagem de sucesso ou erro.</returns>
@@ -136,6 +136,36 @@ namespace AcademyManager.Api.Controllers
             catch (Exception ex)
             {
                 _logger.LogError(ex, "Erro inesperado ao deletar aluno.");
+                return Problem();
+            }
+        }
+
+        /// <summary>
+        /// Matricula um aluno à uma nova turma.
+        /// </summary>
+        /// <param name="command">Dados para matrícula. Id do aluno e Id da turma.</param>
+        /// <returns>Mensagem de sucesso ou erro.</returns>
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status500InternalServerError)]
+        [HttpPut]
+        [Route("enroll")]
+        public async Task<IActionResult> Enroll([FromBody] EnrollStudentToClassCommand command)
+        {
+            try
+            {
+                var result = await _mediator.Send(command);
+
+                if (result.IsFailure)
+                {
+                    return BadRequest(new { result.ErrorMessage });
+                }
+
+                return Ok(new { Message = "Aluno matriculado com sucesso!" });
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Erro inesperado ao atualizar aluno.");
                 return Problem();
             }
         }

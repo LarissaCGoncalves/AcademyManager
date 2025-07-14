@@ -16,7 +16,7 @@ namespace AcademyManager.Application.StudentUseCases.Handlers
 
         public async Task<Result> Handle(RemoveStudentCommand request, CancellationToken cancellationToken)
         {
-            var existingStudent = await _repository.GetById(request.Id);
+            var existingStudent = await _repository.GetById(request.Id, i => i.Enrollments);
 
             if (existingStudent is null)
             {

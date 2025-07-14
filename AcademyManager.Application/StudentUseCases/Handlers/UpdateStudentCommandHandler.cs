@@ -28,23 +28,29 @@ namespace AcademyManager.Application.StudentUseCases.Handlers
             var cpf = new Cpf(request.Cpf);
             var email = new Email(request.Email);
 
+            if (email.IsValid && email.Address != existingStudent.Email.Address)
+            {
+                var emailExists = await _repository.CheckIfExistsByEmail(email.Address);
+                if (emailExists)
+                {
+                    return Result.Failure("O email informado já está sendo utilizado.");
+                }
+            }
+
+            if (cpf.IsValid && cpf.CpfNumber != existingStudent.Cpf.CpfNumber)
+            {
+                var cpfExists = await _repository.CheckIfExistsByCpf(cpf.CpfNumber);
+                if (cpfExists)
+                {
+                    return Result.Failure("O CPF informado já está sendo utilizado.");
+                }
+            }
+
             existingStudent.Update(name, request.BirthDate, cpf, email);
 
             if (!existingStudent.IsValid)
             {
                 return Result.Failure(existingStudent.ReadNotifications());
-            }
-
-            var emailExists = await _repository.CheckIfExistsByEmail(email.Address);
-            if (emailExists)
-            {
-                return Result.Failure("O email informado já está sendo utilizado.");
-            }
-
-            var cpfExists = await _repository.CheckIfExistsByCpf(cpf.CpfNumber);
-            if (cpfExists)
-            {
-                return Result.Failure("O CPF informado já está sendo utilizado.");
             }
 
             _repository.Update(existingStudent);
