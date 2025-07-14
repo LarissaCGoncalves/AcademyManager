@@ -34,9 +34,12 @@ Esta aplicação é uma **API RESTful** desenvolvida com **.NET 8** para servir 
     ```bash
     dotnet run
 
-7. Abra o navegador e acesse a interface interativa do Swagger para testar os endpoints da API:
+7. **Abra o navegador** e acesse o Swagger para explorar e testar os endpoints disponíveis da API.  
+   Basta acessar a porta em que a aplicação está rodando localmente, seguida de `/swagger/index.html`, por exemplo:
     ```bash
-    https://localhost:7181/swagger/index.html
+    http://localhost:5051/swagger/index.html
+
+> 📌 Obs.: A porta pode variar de acordo com o ambiente. Verifique o terminal após executar `dotnet run` — ele indicará o endereço exato onde a API está escutando.
 
 ## 📂 Estrutura do Projeto
 O projeto segue os princípios do DDD, com Clean Architecture e CQRS, visando escalabilidade e manutenibilidade. A estrutura está dividida em:
